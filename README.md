@@ -24,7 +24,3 @@
 - [网易云 · 乐评](https://github.com/isecret/yuncun)
 # 数据来源
 项目歌曲数据、图像和评论数据来源于 [网易云音乐](https://music.163.com) 和 [QQ音乐](https://y.qq.com)，它们对其拥有内容、商标所有权。
-=======
-# zhuoyue
-酹乐之事，实乃听曲品韵，忘我其中，失神思久不能语，亦叹人生感悲欢，独观乐评，而后豁然开朗，终释怀。
->>>>>>> remotes/origin/main
