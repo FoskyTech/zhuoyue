@@ -11,3 +11,4 @@
 use think\facade\Route;
 
 Route::get('qq', 'index/qq');
+Route::rule('api', 'api/index')->allowCrossDomain();
