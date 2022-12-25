@@ -94,11 +94,22 @@ body {
     -moz-osx-font-smoothing: grayscale;
     content: "\e63c";
 }
+.bottom-container {
+    display: flex;
+}
+.qrcode-container {
+    width: 30%;
+    padding: 12px;
+}
+.bottom-container img {
+    width: 70px;
+}
 .author-container {
     color: #808080;
     font-size: 12px;
     padding: 12px;
     text-align: right;
+    width: 70%;
 }
 .author-container .iconfont {
     font-size: 12px;
