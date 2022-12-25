@@ -137,6 +137,9 @@ body {
     font-size: 12px;
 }
 @media screen and (max-width: 512px) {
+    .container {
+        justify-content: flex-start;
+    }
     .album-container {
         width: 100%;
         height: auto;
