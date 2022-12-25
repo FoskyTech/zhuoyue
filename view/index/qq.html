@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>酌乐 · 一言 API</title>
+    <meta name="keywords" content="酌乐,乐评,网易云热评,网易云热评Api,一言,QQ音乐">
+    <meta name="description" content="酹乐之事，实乃听曲品韵，忘我其中，失神思久不能语，亦叹人生感悲欢，独观乐评，而后豁然开朗，终释怀。">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/css/font.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="card-container mask">
+        <div class="album-container">
+            <img class="album-img" id="album-img" src="http://img.itmop.com/upload/2017-11/20171131459106006.png">
+        </div>
+        <div class="comment-container">
+            <div class="comment-text" id="comment-text">&nbsp;&nbsp;少女正在祈祷中...</div>
+            <div class="author-container">
+                <div class="author-text">获赞 <span id="commnet-like">加载中...</span></div>
+                <div class="author-text">来自 @<span id="commnet-user">加载中...</span></div>
+                <div class="author-text">在「<span id="song-name">加载中...</span>」</div>
+                <div class="author-text"><i class="iconfont icon-musicqq"></i>歌曲下方的评论</div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-container">
+        <div class="nav-items">
+            <span><a href="https://github.com/FoskyTech/zhuoyue/blob/main/DOC.md" target="_blank">API</a></span>
+            <span><a href="https://github.com/FoskyTech/zhuoyue/" target="_blank">关于</a></span>
+            <!-- <span><a href="#" target="_blank">贡献</a></span> -->
+            <span><a href="https://fosky.top/" target="_blank">主页</a></span>
+        </div>
+        <div class="company">
+            <span>酌乐 已分发 <i id="api-request-count">-</i> 次 <i class="iconfont icon-like"></i> Designed by <a href="https://fosky.top/">FoskyTech</a></span>
+        </div>
+    </div>
+</div>
+<script src="/static/js/fetch.min.js"></script>
+<script src="/static/js/jquery.slim.min.js"></script>
+<script src="/static/js/rgbaster.min.js"></script>
+<!-- <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="https://files.wangmao.me/js/canvas2image.js"></script> -->
+<script src="/static/js/env.js"></script>
+<script>
+    let api_domain = window.api_domain;
+    function getHotComment() {
+        let random = Math.random();
+        $('.card-container').addClass('mask');
+        $('.card-container').removeClass('shownow');
+        fetch(api_domain+'/qq?random='+random)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                window.hotComments = data;
+                let album = new Image();
+                album.src = data.images+'?max_age=2592000';
+                album.onload = function () {
+                    $('#album-img').attr('src', album.src);
+                    $('#commnet-like').text(data.comment_like);
+                    $('#comment-text').text(data.comment_content);
+                    $('#commnet-user').text(data.comment_nickname);
+                    $('#song-name').text(data.title);
+                    $('.card-container').addClass('shownow');
+                    // 获取专辑主色调 取反色设置文字
+                    RGBaster.colors(album, {
+                        success: function(payload) {
+                            $('.card-container').removeClass('mask');
+                            let c = payload.dominant.match(/\d+/g);
+                            let Color = `rgba(${c[0]},${c[1]},${c[2]},0.8)`;
+                            let grayLevel = c[0] * 0.299 + c[1] * 0.587 + c[2] * 0.114;
+                            if (grayLevel >= 192) {
+                                $('a').css('color', '#333');
+                                $('.company').css('color', '#333');
+                            } else {
+                                $('a').css('color', '#EEE');
+                                $('.company').css('color', '#EEE');
+                            }
+                            $('body').css('background', payload.dominant);
+                        }
+                    });
+                };
+            })
+            .catch(function (e) {
+                console.log(e)
+            });
+    }
+
+    function getCount() {
+        let random = Math.random();
+        fetch(api_domain + '/count?random='+random)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                $('#api-request-count').text(data.api_request_count);
+            })
+            .catch(function (e) {
+                console.log(e)
+            });
+    }
+
+    // 定时更新
+    setInterval(function(){
+        getHotComment();
+    }, 10000);
+
+    // 乐评生成图片
+    // function capture() {
+    //     html2canvas().then(function(canvas) {
+    //         Canvas2Image.saveAsImage(canvas, );
+    //     });
+    // }
+
+    // 更新
+    getHotComment();
+    getCount();
+</script>
+</body>
+</html>
