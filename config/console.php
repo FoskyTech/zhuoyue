@@ -5,6 +5,6 @@
 return [
     // 指令定义
     'commands' => [
-        'song:netease'  => 'app\command\SongNeteaseSync'
+        'song:netease'  => 'app\command\NeteaseSync'
     ],
 ];

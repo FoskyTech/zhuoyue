@@ -14,7 +14,7 @@ use GuzzleHttp\Pool;
 
 use app\model\SongNetease;
 
-class SongNeteaseSync extends Command
+class NeteaseSync extends Command
 {
     // 工作线程数
     protected $concurrency = 5;
@@ -26,22 +26,36 @@ class SongNeteaseSync extends Command
     {
         // 指令配置
         $this->setName('song:netease')
-            ->addArgument('list', Argument::OPTIONAL, "指定歌单")
+            ->addArgument('type', Argument::REQUIRED, "类型")
             ->addOption('id', null, Option::VALUE_OPTIONAL, '歌单id')
-            ->setDescription('获取网易云音乐数据');
+            ->setDescription('获取网易云音乐热评');
     }
 
     protected function execute(Input $input, Output $output)
     {
         $netease = new SongNetease();
 
-        if ($input->hasOption('id')) {
+        $type = $input->getArgument('type');
+        $type = $type ?: 'list';
+
+        if ($type == 'song') {
             $id = $input->getOption('id');
-            $this->songList = $netease->getPlayList($id);
+            if (!$id) {
+                $output->writeln('错误：请指定歌曲ID');
+                return;
+            }
+            $this->songList = [
+                ['id' => $id]
+            ];
         } else {
-            $list = $input->getArgument('list');
-            $list = $list ?: 'toplist';
-            if ($list == 'toplist') {
+            if ($input->hasOption('id')) {
+                $id = $input->getOption('id');
+                if ($id == 'top') {
+                    $this->songList = $netease->getTopList();
+                } else {
+                    $this->songList = $netease->getPlayList($id);
+                }
+            } else {
                 $this->songList = $netease->getTopList();
             }
         }

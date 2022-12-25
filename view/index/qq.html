@@ -21,7 +21,7 @@
         <div class="comment-container">
             <div class="comment-text" id="comment-text">&nbsp;&nbsp;少女正在祈祷中...</div>
             <div class="author-container">
-                <div class="author-text">获赞 <span id="commnet-like">加载中...</span></div>
+                <div class="author-text">获赞 <span id="commnet-like">加载中...</span> 次</div>
                 <div class="author-text">来自 @<span id="commnet-user">加载中...</span></div>
                 <div class="author-text">在「<span id="song-name">加载中...</span>」</div>
                 <div class="author-text"><i class="iconfont icon-musicqq"></i>歌曲下方的评论</div>
@@ -62,7 +62,7 @@
                 album.src = data.images+'?max_age=2592000';
                 album.onload = function () {
                     $('#album-img').attr('src', album.src);
-                    $('#commnet-like').text(data.comment_like);
+                    $('#commnet-like').text(data.comment_liked_count);
                     $('#comment-text').text(data.comment_content);
                     $('#commnet-user').text(data.comment_nickname);
                     $('#song-name').text(data.title);
