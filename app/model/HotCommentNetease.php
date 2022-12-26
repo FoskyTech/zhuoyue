@@ -40,7 +40,7 @@ class HotCommentNetease extends Model
             'album' =>  $song['album'],
             'description'   =>  $song['description'],
             'mp3_url'   =>  '',
-            'published_date'    =>  $song['published_date'],
+            'pub_date'    =>  $song['published_date'],
             'comment_id'    =>  $comment_origin['song_id'],
             'comment_user_id'   =>  $comment_origin['user_id'],
             'comment_nickname'  =>  $comment_origin['nickname'],
