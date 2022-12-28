@@ -11,5 +11,6 @@
 use think\facade\Route;
 
 Route::get('qq', 'index/qq');
+Route::get('music/:type/:song_id', 'index/music_:type');
 Route::rule('api/count', 'api/count')->allowCrossDomain();
 Route::rule('api', 'api/index')->allowCrossDomain();

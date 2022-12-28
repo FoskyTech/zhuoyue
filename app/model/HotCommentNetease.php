@@ -50,7 +50,7 @@ class HotCommentNetease extends Model
             'comment_published_date'    =>  $comment_origin['published_date']
         ];
         // 插入音乐链接
-        $comment['mp3_url'] = 'https://fosky.top/music/'.$comment['song_id'];
+        $comment['mp3_url'] = 'https://zy.fosky.top/music/netease/' . $comment['song_id'];
 
         // TODO 歌词链接 http://music.163.com/api/song/media?id=
 
