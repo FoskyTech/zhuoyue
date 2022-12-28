@@ -3,10 +3,16 @@ namespace app\controller;
 
 use app\common\BaseController;
 use app\model\HotCommentNetease;
+use think\facade\Cache;
+
 class Api extends BaseController
 {
     public function index()
     {
+        if (!Cache::has('api_count')) {
+            Cache::set('api_count', 0, 86400 * 365 * 100);
+        }
+        Cache::inc('api_count');
         return json(HotCommentNetease::getOneRandHotComment());
     }
 
@@ -34,7 +40,7 @@ class Api extends BaseController
     public function count()
     {
         $data = [
-            'api_request_count' => 114514
+            'api_request_count' => Cache::get('api_count')
         ];
         return json($data);
     }
